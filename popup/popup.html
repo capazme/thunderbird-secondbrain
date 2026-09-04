@@ -6,11 +6,54 @@
 </head>
 <body>
   <header>
-    <h1>Riassunto thread</h1>
+    <h1>Second Brain</h1>
     <button id="btn-options" title="Opzioni">⚙</button>
   </header>
-  <main id="root"></main>
-  <footer>
+  <nav class="tabs" role="tablist">
+    <button class="tab" data-tab="salva" role="tab">Salva</button>
+    <button class="tab" data-tab="riassunto" role="tab">Riassunto</button>
+    <button class="tab" data-tab="promessa" role="tab">Promessa</button>
+  </nav>
+
+  <section id="tab-salva" class="pane" hidden>
+    <div id="msg-info" class="msg"></div>
+    <div id="vault-warn" class="error" hidden></div>
+    <div id="form-salva">
+      <fieldset class="dest">
+        <label><input type="radio" name="dest" value="cliente" checked> Cliente</label>
+        <label><input type="radio" name="dest" value="personale"> Personale</label>
+        <label><input type="radio" name="dest" value="inbox"> Inbox</label>
+      </fieldset>
+      <div id="blocco-cliente">
+        <select id="sel-cliente"></select>
+        <select id="sel-pratica"><option value="">(nessuna pratica: scheda cliente)</option></select>
+        <div id="suggerimento" class="hint"></div>
+      </div>
+      <label class="chk"><input type="checkbox" id="chk-eml"> Salva anche l'originale <code>.eml</code> con impronta SHA-256</label>
+      <button id="btn-salva" class="primary">Salva nel vault</button>
+    </div>
+    <div id="esito-salva"></div>
+  </section>
+
+  <section id="tab-riassunto" class="pane" hidden>
+    <main id="root"></main>
+  </section>
+
+  <section id="tab-promessa" class="pane" hidden>
+    <p id="promessa-dest" class="hint"></p>
+    <h3>🤝 Promessa</h3>
+    <input id="pr-cosa" placeholder="Cosa ho promesso">
+    <input id="pr-achi" placeholder="A chi">
+    <input id="pr-entro" type="date" title="Entro">
+    <button id="btn-promessa" class="primary">Crea promessa</button>
+    <h3>⏰ Scadenza sulla pratica</h3>
+    <input id="sc-cosa" placeholder="Cosa scade (udienza, termine, memoria…)">
+    <input id="sc-data" type="date" title="Data">
+    <button id="btn-scadenza" class="primary">Registra scadenza</button>
+    <div id="esito-promessa"></div>
+  </section>
+
+  <footer id="footer-riassunto" hidden>
     <button id="btn-cancel" hidden>Annulla</button>
     <button id="btn-copy" hidden>Copia</button>
     <button id="btn-regen" hidden>Rigenera</button>

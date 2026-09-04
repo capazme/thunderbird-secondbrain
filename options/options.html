@@ -10,16 +10,45 @@
     .row > * { flex: 1; }
     .row button { flex: 0 0 auto; }
     button { padding: 5px 14px; cursor: pointer; }
-    #status, #save-status { font-size: 12px; margin-left: 8px; }
+    #status, #vault-status, #save-status { font-size: 12px; margin-left: 8px; }
     .ok { color: #067647; } .err { color: #b42318; }
     pre { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; padding: 8px; user-select: all; overflow-x: auto; }
     .hint { color: #656d76; font-size: 12px; margin-top: 2px; }
     hr { margin: 20px 0; border: none; border-top: 1px solid #d0d7de; }
+    .chk { display: flex; align-items: center; gap: 6px; font-weight: 400; margin: 4px 0; }
+    .chk input { width: auto; }
+    h2 { margin-top: 0; }
   </style>
 </head>
 <body>
-  <h2>Riassumi Thread — Opzioni</h2>
+  <h2>Thunderbird Second Brain — Opzioni</h2>
 
+  <h3>Vault Obsidian (Local REST API)</h3>
+  <label for="obsidian-url">Indirizzo</label>
+  <div class="row">
+    <input id="obsidian-url" type="url" placeholder="http://127.0.0.1:27123">
+    <button id="btn-vault-test">Testa connessione</button><span id="vault-status"></span>
+  </div>
+  <label for="obsidian-key">Chiave API</label>
+  <input id="obsidian-key" type="password" autocomplete="off" placeholder="dalle impostazioni del plugin Local REST API in Obsidian">
+  <div class="hint">Resta salvata solo in Thunderbird (storage locale dell'estensione).</div>
+
+  <label for="clients-folder">Cartella clienti</label>
+  <input id="clients-folder" placeholder="📁 Clienti">
+  <label for="personal-folder">Cartella corrispondenza personale</label>
+  <input id="personal-folder" placeholder="🌱 Personale/Corrispondenza">
+  <label for="promises-folder">Cartella promesse personali</label>
+  <input id="promises-folder" placeholder="🌱 Personale/Promesse">
+  <label for="inbox-folder">Cartella inbox del vault</label>
+  <input id="inbox-folder" placeholder="📥 Inbox">
+  <label for="tag-vault">Tag applicato in Thunderbird ai messaggi salvati</label>
+  <input id="tag-vault" placeholder="vault">
+
+  <label>Account PEC (l'originale <code>.eml</code> si salva sempre)</label>
+  <div id="accounts"></div>
+
+  <hr>
+  <h3>Riassunto con Ollama</h3>
   <label for="endpoint">Endpoint Ollama</label>
   <div class="row">
     <input id="endpoint" type="url" placeholder="http://localhost:11434">
@@ -28,7 +57,7 @@
 
   <label for="model">Modello</label>
   <div class="row">
-    <select id="model"><option value="">(automatico: primo gemma3, altrimenti il primo)</option></select>
+    <select id="model"><option value="">(automatico: granite4, gemma3, llama3… altrimenti il primo)</option></select>
     <button id="btn-refresh">Aggiorna elenco</button>
   </div>
   <div class="hint">L'elenco viene letto dai modelli installati in Ollama.</div>

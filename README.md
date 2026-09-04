@@ -1,28 +1,62 @@
-# Thread Summarizer (Ollama) for Thunderbird
+# Thunderbird Second Brain
 
-[![CI](https://github.com/capazme/tb-thread-summarizer/actions/workflows/ci.yml/badge.svg)](https://github.com/capazme/tb-thread-summarizer/actions/workflows/ci.yml)
+[![CI](https://github.com/capazme/thunderbird-secondbrain/actions/workflows/ci.yml/badge.svg)](https://github.com/capazme/thunderbird-secondbrain/actions/workflows/ci.yml)
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://www.mozilla.org/en-US/MPL/2.0/)
 [![Thunderbird ≥128](https://img.shields.io/badge/Thunderbird-%E2%89%A5128-0a84ff.svg)](https://www.thunderbird.net/)
 
-Summarizes the email thread of the displayed message with a **local** Ollama
-model, right inside Thunderbird. A **Riassumi thread** button on the message
-header opens a panel with a structured triage summary — TL;DR, key points,
-actions & deadlines, and who is waiting for a reply.
+A Thunderbird add-on that connects your mailbox to an **Obsidian** vault and to
+a **local** Ollama model. One button on the message header, three tabs:
 
-**No email content ever leaves your machine.** The only network host the
-extension contacts is your local Ollama endpoint (`http://localhost:11434` by
-default). No cloud, no telemetry, no third-party calls, no bundled runtime
-dependencies. Summaries live in session memory only and are never written to
-disk.
+- **Salva** — saves the displayed message into the right place of the vault:
+  a verbatim Markdown note with a complete frontmatter, the attachments as
+  files, and (for PEC accounts, or on request) the original `.eml` with its
+  SHA-256 fingerprint. The sender is matched to a client card, a line is
+  appended to the matter's «Cronologia», and the message is tagged `vault` in
+  Thunderbird. Saving the same message twice is detected by Message-ID.
+- **Riassunto** — the original thread summarizer: a structured triage summary
+  (TL;DR, key points, actions & deadlines, who is waiting for a reply) produced
+  by a local Ollama model, streamed into the panel and cached per thread.
+- **Promessa** — turns a mail into a «Promessa» note (with a due date that the
+  vault's calendar projector picks up) or registers a deadline on the matter.
 
-> The summary text is produced in Italian (v1). Endpoint, model and thread
-> size are configurable in the add-on options.
+**No email content ever leaves your machine.** The only hosts the extension
+contacts are `localhost:27123` (Obsidian Local REST API) and
+`localhost:11434` (Ollama). No cloud, no telemetry, no bundled runtime
+dependencies. The AI is optional and downstream: nothing it produces is ever
+written into a matter by itself.
+
+> Formerly *Thread Summarizer (Ollama) for Thunderbird* (`tb-thread-summarizer`).
+> The add-on id is unchanged, so 0.1.x installs update in place.
 
 ## Requirements
 
 - **Thunderbird ≥ 128**
-- [**Ollama**](https://ollama.com) running locally with at least one chat model
-  installed, e.g. `ollama pull gemma3`
+- **Obsidian** with the community plugin **Local REST API** enabled
+  (non-encrypted HTTP server on port 27123). Copy its API key into the add-on
+  options and press *Testa connessione*.
+- Optional, for summaries: [**Ollama**](https://ollama.com) running locally
+  with at least one chat model installed, e.g. `ollama pull granite4`
+
+## What gets written in the vault
+
+Folders are configurable in the options (defaults in brackets).
+
+| Destination | Note | Attachments | `.eml` |
+|---|---|---|---|
+| Client *(cartella `📁 Clienti/<cliente>`)* | `Corrispondenza/<data> — <mittente> — <oggetto>.md` | `Allegati/<data> — <nome>` | `Allegati/eml/<message-id>.eml` |
+| Personal *(`🌱 Personale/Corrispondenza`)* | `<data> — <mittente> — <oggetto>.md` | `Allegati/…` | `Allegati/eml/…` |
+| Inbox *(`📥 Inbox`)* | same | `Allegati/…` | `Allegati/eml/…` |
+
+Client cards are read from `📁 Clienti/<cartella>/<cartella> — scheda cliente.md`
+(`nome`, `domini`, `email` in the frontmatter); matters from
+`📁 Clienti/<cartella>/Pratiche/*.md`. Promises go to
+`📁 Clienti/<cartella>/Promesse/` (or `🌱 Personale/Promesse/`), deadlines
+update `prossima_scadenza` on the matter and add a line under «⏰ Scadenze».
+
+The note frontmatter is fully quoted (`tipo: "corrispondenza"`, `message_id`,
+`thread_key`, `da`, `a`, `cc`, `data`, `oggetto`, `cliente`, `pratica`,
+`allegati`, `eml`, `raw_sha256`, `account`, `pec`, `anima`, `tags`) and the
+body ends with an empty «🤖 Proposte» section reserved for AI suggestions.
 
 ## One-time Ollama setup
 
@@ -64,18 +98,18 @@ then `sudo systemctl daemon-reload && sudo systemctl restart ollama`.
 
 **From a release (recommended)**
 
-1. Download the latest `tb-thread-summarizer-<version>.xpi` from the
-   [Releases](https://github.com/capazme/tb-thread-summarizer/releases) page.
+1. Download the latest `thunderbird-secondbrain-<version>.xpi` from the
+   [Releases](https://github.com/capazme/thunderbird-secondbrain/releases) page.
 2. Thunderbird → **Add-ons Manager** → gear icon → **Install Add-on From
    File…** → pick the `.xpi`.
 
 **From source**
 
 ```bash
-git clone https://github.com/capazme/tb-thread-summarizer.git
-cd tb-thread-summarizer
+git clone https://github.com/capazme/thunderbird-secondbrain.git
+cd thunderbird-secondbrain
 npm install && npm test
-npm run package   # produces dist/tb-thread-summarizer-<version>.xpi
+npm run package   # produces dist/thunderbird-secondbrain-<version>.xpi
 ```
 
 ## Usage

@@ -28,3 +28,19 @@ Ollama running with `OLLAMA_ORIGINS="moz-extension://*"` and gemma3 installed.
 - [ ] Fresh profile install from .xpi: button appears, options open
 - [ ] Only network traffic: localhost:11434 (check Ollama logs / no other
       requests from the extension in the Network panel of the background page)
+
+## Vault (Second Brain, since 0.2.0)
+Prerequisites: Obsidian open, Local REST API enabled on 27123, API key saved
+in the options, *Testa connessione* green.
+- [ ] Mail from a known client domain: «Salva» proposes the client; matters listed
+- [ ] Save with client + matter: note, attachment(s), «Cronologia» line, `vault` tag
+- [ ] Save the same mail again: «Già nel vault» with the note path, nothing rewritten
+- [ ] Mail on a PEC account: `.eml` checkbox forced on; `.eml` written, SHA-256 shown
+- [ ] Destination «Personale» and «Inbox»: note lands in the configured folders
+- [ ] Two mails with the same sender/subject/day: second note gets « (2)»
+- [ ] Promessa: note created under `Promesse/` with `prossima_scadenza`; appears
+      in the calendar after the projector runs
+- [ ] Scadenza: `prossima_scadenza` updated only when earlier; line under «⏰ Scadenze»
+- [ ] Obsidian closed → «Salva»: clear "non raggiungibile" message, Riprova works
+- [ ] Wrong API key → 401 message pointing to the options
+- [ ] Riassunto tab: identical behaviour to 0.1.3 (cache, cancel, regenerate)

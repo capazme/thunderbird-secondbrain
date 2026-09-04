@@ -1,28 +1,31 @@
 {
-  "name": "tb-thread-summarizer",
+  "name": "thunderbird-secondbrain",
   "version": "0.1.3",
-  "description": "Thunderbird MailExtension that summarizes email threads with a local Ollama model — privacy-first, no data leaves your machine.",
+  "description": "Thunderbird MailExtension for a personal second brain: saves emails into the right Obsidian file with attachments and a hashed .eml, and summarizes threads with a local Ollama model. Privacy-first.",
   "type": "module",
   "private": true,
   "license": "MPL-2.0",
   "author": "capazme",
-  "homepage": "https://github.com/capazme/tb-thread-summarizer#readme",
+  "homepage": "https://github.com/capazme/thunderbird-secondbrain#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/capazme/tb-thread-summarizer.git"
+    "url": "git+https://github.com/capazme/thunderbird-secondbrain.git"
   },
   "bugs": {
-    "url": "https://github.com/capazme/tb-thread-summarizer/issues"
+    "url": "https://github.com/capazme/thunderbird-secondbrain/issues"
   },
   "keywords": [
-    "thunderbird",
-    "mailextension",
-    "ollama",
     "email",
-    "summarization",
     "llm",
     "local-ai",
-    "privacy"
+    "mailextension",
+    "obsidian",
+    "ollama",
+    "pkm",
+    "privacy",
+    "second-brain",
+    "summarization",
+    "thunderbird"
   ],
   "scripts": {
     "test": "vitest run --passWithNoTests",

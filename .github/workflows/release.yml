@@ -32,7 +32,7 @@ jobs:
         run: |
           TAG="${{ github.event.release.tag_name || github.event.inputs.tag }}"
           VERSION="${TAG#v}"
-          XPI="tb-thread-summarizer-${VERSION}.xpi"
+          XPI="thunderbird-secondbrain-${VERSION}.xpi"
           URL="https://github.com/${{ github.repository }}/releases/download/${TAG}/${XPI}"
           {
             echo "tag=$TAG"

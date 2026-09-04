@@ -4,6 +4,44 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2026-09-04
+
+The add-on becomes **Thunderbird Second Brain**: the thread summarizer is now
+one of three tabs, next to saving mail into an Obsidian vault. Repository
+renamed from `tb-thread-summarizer` to `thunderbird-secondbrain` (the add-on id
+is unchanged, so existing installs update in place).
+
+### Added
+- **Salva** tab: saves the displayed message into the vault through the
+  Obsidian Local REST API — a verbatim Markdown note with a fully quoted
+  frontmatter (Message-ID, thread key, sender, recipients, date, subject,
+  client, matter, attachments, `.eml` path, SHA-256, account, PEC flag), the
+  real attachments as files, and the original `.eml` (always for PEC accounts,
+  on request otherwise) with its SHA-256 fingerprint. A line is appended to the
+  «Cronologia» section of the matter (or of the client card), and the message
+  gets a `vault` tag in Thunderbird (created if missing).
+- Client suggestion from the sender: exact address, then domain/subdomain,
+  read from the client cards in the vault (`domini`, `email` frontmatter).
+- Destinations: client (with optional matter), personal correspondence, vault
+  inbox. Idempotent: a message already in the vault is detected by Message-ID.
+- **Promessa** tab: creates a «Promessa» note (with `prossima_scadenza` and
+  `calendario`, so the calendar projector picks it up) or registers a deadline
+  on the matter (`prossima_scadenza` updated only when the new date is
+  earlier, plus a line under «⏰ Scadenze»).
+- Options: Obsidian URL and API key with a connection test, vault folders,
+  Thunderbird tag name, per-account PEC flag.
+- Pure, dependency-injected modules with unit tests: `vault-client`,
+  `frontmatter`, `anagrafica`, `nota-corrispondenza`, `salva`, `promesse`.
+
+### Changed
+- Popup title «Second Brain»; the summary starts when its tab is opened (the
+  last used tab is remembered). Summary code and protocol are unchanged.
+- Default model preference: granite4, gemma3, llama3, qwen2.5 (qwen3 avoided).
+- Permissions: `messagesUpdate`, `messagesTags`, `accountsRead` added; host
+  permissions for `localhost:27123` / `127.0.0.1:27123` (Obsidian) added.
+
+[0.2.0]: https://github.com/capazme/thunderbird-secondbrain/releases/tag/v0.2.0
+
 ## [0.1.3] - 2026-07-14
 
 ### Added
@@ -24,7 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   "1 messaggio" instead of "1 messaggi" (and "N messaggi" for N > 1), in both
   the generation phase line and the summary meta line.
 
-[0.1.2]: https://github.com/capazme/tb-thread-summarizer/releases/tag/v0.1.2
+[0.1.2]: https://github.com/capazme/thunderbird-secondbrain/releases/tag/v0.1.2
 
 ## [0.1.1] - 2026-07-14
 
@@ -40,7 +78,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `OLLAMA_ORIGINS` survives macOS reboots. Referenced from the README and the
   options page.
 
-[0.1.1]: https://github.com/capazme/tb-thread-summarizer/releases/tag/v0.1.1
+[0.1.1]: https://github.com/capazme/thunderbird-secondbrain/releases/tag/v0.1.1
 
 ## [0.1.0] - 2026-07-14
 
@@ -64,4 +102,4 @@ Initial release.
 - 47 unit tests covering the pure logic modules (thread building, content
   extraction, NDJSON streaming, prompt budgeting, error mapping, cache).
 
-[0.1.0]: https://github.com/capazme/tb-thread-summarizer/releases/tag/v0.1.0
+[0.1.0]: https://github.com/capazme/thunderbird-secondbrain/releases/tag/v0.1.0

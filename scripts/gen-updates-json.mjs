@@ -6,8 +6,8 @@
 //   node scripts/gen-updates-json.mjs <version> <update_link> [<update_hash>]
 //
 // Example:
-//   node scripts/gen-updates-json.mjs 0.1.3 \
-//     https://github.com/capazme/tb-thread-summarizer/releases/download/v0.1.3/tb-thread-summarizer-0.1.3.xpi \
+//   node scripts/gen-updates-json.mjs 0.2.0 \
+//     https://github.com/capazme/thunderbird-secondbrain/releases/download/v0.2.0/thunderbird-secondbrain-0.2.0.xpi \
 //     sha256:abcd... > updates.json
 import { readFileSync } from 'node:fs';
 
