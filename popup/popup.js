@@ -188,6 +188,7 @@ $('btn-salva').addEventListener('click', async () => {
     const r = await invia({ tipo: 'salva', tabId: currentTabId, scelta: sceltaCorrente() });
     const righe = [`Nota: <code>${escapeHtml(r.nota)}</code>`];
     for (const a of r.allegati) righe.push(`Allegato: <code>${escapeHtml(a)}</code>`);
+    if (r.inlineIgnorati) righe.push(`${r.inlineIgnorati} ${r.inlineIgnorati === 1 ? 'immagine inline ignorata' : 'immagini inline ignorate'} (loghi e firme).`);
     if (r.eml) righe.push(`Originale: <code>${escapeHtml(r.eml)}</code><br>SHA-256 <code>${escapeHtml(r.sha256)}</code>`);
     if (r.cronologia) righe.push('Riga aggiunta alla cronologia.');
     for (const a of r.avvisi ?? []) righe.push(`<span class="warn">${escapeHtml(a)}</span>`);

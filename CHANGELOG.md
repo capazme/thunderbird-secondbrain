@@ -24,6 +24,9 @@ is unchanged, so existing installs update in place).
   read from the client cards in the vault (`domini`, `email` frontmatter).
 - Destinations: client (with optional matter), personal correspondence, vault
   inbox. Idempotent: a message already in the vault is detected by Message-ID.
+- Inline parts referenced from the body (signature logos, embedded images:
+  `contentId` or `Content-Disposition: inline`) are not saved as attachments;
+  the popup reports how many were skipped.
 - **Promessa** tab: creates a «Promessa» note (with `prossima_scadenza` and
   `calendario`, so the calendar projector picks it up) or registers a deadline
   on the matter (`prossima_scadenza` updated only when the new date is

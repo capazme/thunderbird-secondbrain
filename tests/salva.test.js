@@ -126,3 +126,25 @@ describe('originale .eml e anima', () => {
     expect(b.scritti.find((s) => s.p === p.nota).md).toContain('anima: ["personale"]');
   });
 });
+
+describe('allegati inline', () => {
+  it('èAllegatoVero scarta le parti inline referenziate dal corpo e quelle senza nome', async () => {
+    const { èAllegatoVero } = await import('../lib/salva.js');
+    expect(èAllegatoVero({ name: 'image001.png', contentType: 'image/png', contentId: 'image001.png@01DC' })).toBe(false);
+    expect(èAllegatoVero({ name: 'logo.png', contentType: 'image/png', contentDisposition: 'inline' })).toBe(false);
+    expect(èAllegatoVero({ name: '', contentType: 'text/plain' })).toBe(false);
+    expect(èAllegatoVero({ name: 'contratto.pdf', contentType: 'application/pdf', contentDisposition: 'attachment' })).toBe(true);
+    expect(èAllegatoVero({ name: 'foto.jpg', contentType: 'image/jpeg' })).toBe(true);
+  });
+  it('salva conta le parti inline ignorate e non le scrive', async () => {
+    const a = ambiente();
+    a.messenger.messages.listAttachments = async () => [
+      { partName: '1.2', name: 'image001.png', contentType: 'image/png', size: 3, contentId: 'x@y' },
+      { partName: '1.3', name: 'bozza.pdf', contentType: 'application/pdf', size: 3 },
+    ];
+    const r = await salvaMessaggio({ messenger: a.messenger, vault: a.vault, settings: mergeSettings({}), header: HEADER, scelta: { destinazione: 'inbox' }, estraiTesto, account: 'x' });
+    expect(r.allegati).toEqual(['📥 Inbox/Allegati/2026-09-04 — bozza.pdf']);
+    expect(r.inlineIgnorati).toBe(1);
+    expect(a.scritti.some((s) => s.p.includes('image001'))).toBe(false);
+  });
+});
