@@ -3,9 +3,9 @@
     "tb-thread-summarizer@puzio.dev": {
       "updates": [
         {
-          "version": "0.1.3",
-          "update_link": "https://github.com/capazme/tb-thread-summarizer/releases/download/v0.1.3/tb-thread-summarizer-0.1.3.xpi",
-          "update_hash": "sha256:8a978043402a1e5af2d55d31f396411605b56c6db96a2a740896957026746390",
+          "version": "0.2.0",
+          "update_link": "https://github.com/capazme/thunderbird-secondbrain/releases/download/v0.2.0/thunderbird-secondbrain-0.2.0.xpi",
+          "update_hash": "sha256:b5acd4c2a90bbf81fbfc18d94ab89550a49a1364f7fb5ea52121c1c3c6227464",
           "applications": {
             "gecko": {
               "strict_min_version": "128.0"
